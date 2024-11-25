@@ -6,7 +6,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 config.autoAddCss = false
 
 export const metadata: Metadata = {
-  title: "Żryj i nie tyj",
+  title: "Lorem",
   description: "Lorem ipsum",
 };
 
