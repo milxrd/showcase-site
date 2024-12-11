@@ -7,7 +7,7 @@ interface InfoCardProps {
 const InfoCard: React.FC<InfoCardProps> = ({ title }) => {
   return (
     <>
-      {title}
+      <div>{title}</div>
     </>
   );
 };

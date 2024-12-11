@@ -9,15 +9,14 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'hero-pattern': "url('/abstract-nature-leaf.jpg')",
+        'hero-pattern': "url('/background.svg')",
       },
       colors: {
-        'white': '#000000',
-        'black': '#ffffff',
-        'mint': '#97B38F',
-        'beige': '#D1BFAA',
+        'olive': '#abb194',
+        'olive-dark': '#85987d',
+        'beige': '#faf2e9',
+        'bottle-green': '#003b31',
         'gray-dark': '#273444',
-        'gray': '#8492a6',
         'gray-light': '#d3dce6',
       },
       fontFamily: {
