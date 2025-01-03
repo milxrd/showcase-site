@@ -1,4 +1,3 @@
-import EmailSubscription from "../ui/EmailSubscription";
 import Footer from "../ui/Footer";
 import Header from "../ui/Header";
 
@@ -15,7 +14,6 @@ export default function Page() {
         <div className="mx-auto max-w-md pb-16">
           <Header title='Page title' navItems={navItems}/>
         </div>
-        <EmailSubscription />
         <Footer socialIcons={[]} />
       </div>
     </div>
