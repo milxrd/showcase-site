@@ -1,5 +1,5 @@
-import Footer from "../ui/Footer";
 import Header from "../ui/Header";
+import Footer from "../ui/Footer";
 
 const navItems = [
   { name: 'About', href: '/about' },
@@ -9,13 +9,11 @@ const navItems = [
 
 export default function Page() {
   return (
-    <div className="relative flex font-serif antialiased bg-hero-pattern bg-cover min-h-screen overflow-hidden bg-olive flex-col justify-center py-6 sm:py-12">
-      <div className="relative text-black mx-2 px-6 pb-8 pt-10 sm:mx-auto sm:rounded-lg sm:px-10">
-        <div className="mx-auto max-w-md pb-16">
-          <Header title='Page title' navItems={navItems}/>
-        </div>
+    <>
+      <div className="relative flex font-serif antialiased bg-hero-pattern bg-cover overflow-hidden bg-beige flex-col justify-center min-h-screen py-6 sm:py-12">
+        <Header title='Page title' navItems={navItems}/>
         <Footer socialIcons={[]} />
       </div>
-    </div>
+    </>
   );
 }

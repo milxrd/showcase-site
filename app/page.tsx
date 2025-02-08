@@ -1,8 +1,8 @@
 import React from 'react';
 import Header from './ui/Header';
+import Footer from "./ui/Footer";
 import ContentCard from './ui/ContentCard';
-import Footer from './ui/Footer';
-import InfoCard from './ui/InfoCard';
+import EmailSubscription from "./ui/EmailSubscription";
 
 const MainComponent: React.FC = () => {
   const navItems = [
@@ -10,31 +10,21 @@ const MainComponent: React.FC = () => {
     { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/contact'},
   ];
-  const infoCards = ['Lorem', 'ipsum', 'dolor']; 
-  const contentCards = [
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+
+  const cardItems = [
+    { _title: 'Lorem', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'},
+    { _title: 'Ipsum', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'},
+    { _title: 'Dolor', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'}
   ];
 
   return (
     <>
-      <div className="relative flex font-serif antialiased bg-hero-pattern bg-cover min-h-screen overflow-hidden bg-olive flex-col justify-center py-6 sm:py-12">
-        <div className="relative text-black mx-2 px-6 pb-8 pt-10 sm:mx-auto sm:rounded-lg sm:px-10">
-          <div className="mx-auto max-w-md pb-16">
-            <Header title='Page title' navItems={navItems}/>
-          </div>
-          <div className="relative flex flex-row gap-3 py-8 leading-7 text-black">
-            {infoCards.map((_title, index) => (
-              <InfoCard key={index} title={''} />
-            ))}
-            {contentCards.map((content, index) => (
-              <ContentCard key={index} content={content} />
-            ))}
-          </div>
-          <Footer socialIcons={[]} />
-        </div>
-      </div>  
+      <div className="relative flex font-serif antialiased bg-hero-pattern bg-cover overflow-hidden bg-beige flex-col justify-center min-h-screen py-6 sm:py-12">
+        <Header title='Page title' navItems={navItems}/>
+        <ContentCard cardItems={cardItems} />
+        <EmailSubscription />
+        <Footer socialIcons={[]} />
+      </div>
     </>
   );
 };

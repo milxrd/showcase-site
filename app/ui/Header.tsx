@@ -13,20 +13,20 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ title, navItems }) => {
   const pathname = usePathname();
   return (
-    <header className="h-14 text-center">
-      <span className="text-5xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-bottle-green to-olive-dark">{title}</span>
-      <nav className="relative flex flex-row gap-x-16 py-6 text-2xl whitespace-nowrap text-white justify-evenly">
+    <header className="h-auto text-center w-full relative top-12 py-6 xl:absolute sm:py-12">
+      <Link href="/"><span className="text-7xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-bottle-green to-olive-dark">{title}</span></Link>
+      <nav className="relative flex flex-row w-full max-w-1/3 gap-x-16 py-8 text-2xl whitespace-nowrap text-white justify-evenly">
         {navItems.map((link) => {
         return (
           <Link
             key={link.name}
             href={link.href}
-            className={clsx("py-3 px-8 text-white text-sm font-semibold rounded-md focus:outline-none bg-green-950 shadow-md shadow-green-950/50",
+            className={clsx("py-5 px-20 text-white text-sm font-semibold rounded-md focus:outline-none bg-green-950 shadow-md shadow-green-950/50",
             {
               'bg-green-900 shadow-md shadow-green-900/50 text-white': pathname === link.href,
             },
             )}
-            >
+          >
             <p className="hidden md:block">{link.name}</p>
           </Link>
         );
