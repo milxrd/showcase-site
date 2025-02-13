@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ title, navItems }) => {
             },
             )}
           >
-            <p className="hidden md:block">{link.name}</p>
+            <p className="hidden md:block text-xl">{link.name}</p>
           </Link>
         );
         })}
