@@ -14,15 +14,17 @@
     "jsx": "preserve",
     "incremental": true,
     "typeRoots": ["./node_modules/@types", "./types"],
+    "baseUrl": ".",
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "contentlayer/generated": ["./.contentlayer/generated"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/lib/notion.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/lib/notion.js", ".contentlayer/generated"],
   "exclude": ["node_modules"]
 }

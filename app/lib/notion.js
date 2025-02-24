@@ -6,10 +6,12 @@ config();
 const go = async () => {
 
   if (process.env.NOTION_SECRET) {
-    await parseNotion(process.env.NOTION_SECRET, './src/content', [
+    await parseNotion(process.env.NOTION_SECRET, './app/content', [
       {
         databaseId: process.env.NOTION_PORTFOLIO_DATABASE_ID || '',
-        contentType: 'Portfolio'
+        contentType: 'Portfolio',
+        languageField: 'lang',
+        filterFields: [ 'translation', 'createdAt', 'status', 'Type']
       },
       {
         databaseId: process.env.NOTION_POST_DATABASE_ID || '',

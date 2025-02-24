@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import typography from '@tailwindcss/typography';
 
 export default {
   content: [
@@ -28,11 +29,18 @@ export default {
           '0%, 100%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.2)' },
         },
+        'slide-down': {
+          '0%': { transform: 'translateY(-100%)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        }
       },
       animation: {
         beat: 'beat 0.5s infinite',
+        'slide-down': 'slide-down 0.5s ease-out forwards',
       },
     },
   },
-  plugins: [],
+  plugins: [
+    typography,
+  ],
 } satisfies Config;

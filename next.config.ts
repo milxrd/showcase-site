@@ -1,7 +1,7 @@
-import type { NextConfig } from "next";
+import { withContentlayer } from 'next-contentlayer'
 
-const nextConfig: NextConfig = {
+const config = {
   /* config options here */
-};
+}
 
-export default nextConfig;
+export default withContentlayer(config);

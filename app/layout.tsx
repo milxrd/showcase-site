@@ -6,6 +6,8 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 config.autoAddCss = false
 
+import { AppProvider } from './AppContext'
+
 export const metadata: Metadata = {
   title: "Lorem",
   description: "Lorem ipsum",
@@ -20,14 +22,16 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
       <body>
-        {children}
+        <AppProvider>
+          {children}
+        </AppProvider>
       </body>
     </html>
-  );
+  )
 }

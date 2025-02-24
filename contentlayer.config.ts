@@ -22,6 +22,12 @@ export const Portfolio = defineDocumentType(() => ({
         slug: { type: "string", required: true },
         image : { type: "json", of: Image, required: false },
     },
+    computedFields: {
+        url: {
+            type: "string",
+            resolve: (portfolio) => `/portfolio/${portfolio.slug}`,
+        },
+    },
 }));
 
 export const Post = defineDocumentType(() => ({
@@ -40,7 +46,7 @@ export const Post = defineDocumentType(() => ({
     computedFields: {
         url: {
         type: "string",
-        resolve: (doc) => `/post/${doc.slug}`,
+        resolve: (post) => `/post/${post.slug}`,
         },
     },
 }));
