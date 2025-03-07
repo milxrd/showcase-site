@@ -4,7 +4,6 @@ import React from 'react';
 import Header from './ui/Header';
 import Footer from "./ui/Footer";
 import ContentCard from './ui/ContentCard';
-import EmailSubscription from "./ui/EmailSubscription";
 import { useAppContext } from './AppContext';
 
 const MainComponent: React.FC = () => {
@@ -19,10 +18,9 @@ const MainComponent: React.FC = () => {
   const profilePic = "/profilepicture.webp";
 
   return (
-      <div className="relative flex font-serif antialiased bg-hero-pattern bg-cover overflow-hidden bg-beige flex-col justify-center min-h-screen py-6 sm:py-12">
+      <div className="relative flex font-serif antialiased bg-hero-pattern bg-cover bg-fixed overflow-hidden bg-black flex-col justify-center min-h-screen py-6 sm:py-12">
         <Header title={pageTitle} navItems={navItems} />
         <ContentCard cardItems={cardItems} imageSrc={profilePic} />
-        <EmailSubscription />
         <Footer author={author} />
       </div>
   );

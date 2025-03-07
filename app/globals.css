@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 :root {
   --background: #ffffff;
@@ -12,6 +12,11 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+html {
+  overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 
 body {
