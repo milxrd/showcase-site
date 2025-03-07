@@ -43,6 +43,7 @@ next-env.d.ts
 /public/images
 /app/content
 
-# development
-/.contentlayer
-/.vscode
+# contentlayer
+.contentlayer
+.contentlayer/**
+out/
