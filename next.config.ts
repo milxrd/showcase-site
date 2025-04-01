@@ -1,6 +1,7 @@
 import { withContentlayer } from 'next-contentlayer2'
 
 const config = {
+  output: "standalone" as const,
   experimental: {
     turbo: {
       rules: {
