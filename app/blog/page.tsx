@@ -59,7 +59,7 @@ export default function Page() {
   const posts = allPosts.sort((a, b) => compareDesc(new Date(a.date), new Date(b.date)))
 
   return (
-    <div className="relative flex font-serif antialiased bg-hero-pattern bg-cover bg-origin-border bg-fixed overflow-hidden bg-black flex-col min-h-screen">
+    <div className="relative flex font-serif antialiased overflow-hidden bg-beige flex-col justify-center min-h-screen py-6 sm:py-12">
       <Header title={pageTitle} navItems={navItems}/>
       
       <main className="container mx-auto px-4 py-8 block relative z-10 text-black mt-64">
