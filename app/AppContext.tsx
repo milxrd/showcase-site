@@ -33,7 +33,10 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 export const useAppContext = () => {
   const context = useContext(AppContext);
   if (!context) {
-    throw new Error('useAppContext must be used within an AppProvider');
+    throw new Error(
+      'useAppContext must be used within an AppProvider. ' +
+      'Make sure your component is wrapped with <AppProvider> in your component tree.'
+    );
   }
   return context;
 };

@@ -6,8 +6,12 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "cypress:open": "cypress open"
+    "lint": "eslint .",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test:e2e": "cypress run",
+    "test:e2e:headed": "cypress run --headed",
+    "test:e2e:ui": "cypress open"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.1",
@@ -28,8 +32,10 @@
     "tailwind-scrollbar-hide": "^2.0.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
     "@kodaps/notion-parse": "^0.0.17",
     "@tailwindcss/typography": "^0.5.16",
+    "@types/cypress": "^0.1.6",
     "@types/debug": "^4.1.12",
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^20.17.23",

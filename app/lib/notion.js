@@ -26,4 +26,7 @@ const go = async () => {
 
 go().then(() => {
   console.log('Done');
+}).catch((error) => {
+  console.error('Error parsing Notion data:', error);
+  process.exit(1);
 });
