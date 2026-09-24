@@ -6,9 +6,11 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
-      mount(component: React.ReactElement): Chainable<unknown>
+      mount: typeof mount
     }
   }
 }
+
+Cypress.Commands.add('mount', mount)
 
 export { mount }

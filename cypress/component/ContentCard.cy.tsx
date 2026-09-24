@@ -18,13 +18,13 @@ describe('ContentCard Component', () => {
     cy.mount(<ContentCard cardItems={mockCardItems} imageSrc={mockImageSrc} />)
     cy.get('h3').contains('User Name').should('be.visible')
     cy.get('img').should('be.visible')
-    cy.get('img').should('have.attr', 'src', mockImageSrc)
+    cy.get('img').should('have.attr', 'src').and('include', encodeURIComponent(mockImageSrc))
     cy.get('img').should('have.attr', 'alt', 'Profile')
   })
 
   it('should render all card items', () => {
     cy.mount(<ContentCard cardItems={mockCardItems} imageSrc={mockImageSrc} />)
-    cy.get('.bg-olive').should('have.length', 3)
+    cy.get('.bg-olive\\/20').should('have.length', 3)
   })
 
   it('should display card titles and content correctly', () => {
@@ -39,17 +39,16 @@ describe('ContentCard Component', () => {
 
   it('should have proper card styling', () => {
     cy.mount(<ContentCard cardItems={mockCardItems} imageSrc={mockImageSrc} />)
-    cy.get('.bg-olive').first().should('have.class', 'bg-opacity-20')
-    cy.get('.bg-olive').first().should('have.class', 'px-6')
-    cy.get('.bg-olive').first().should('have.class', 'pb-8')
-    cy.get('.bg-olive').first().should('have.class', 'pt-10')
-    cy.get('.bg-olive').first().should('have.class', 'shadow-xl')
+    cy.get('.bg-olive\\/20').first().should('have.class', 'px-6')
+    cy.get('.bg-olive\\/20').first().should('have.class', 'pb-8')
+    cy.get('.bg-olive\\/20').first().should('have.class', 'pt-10')
+    cy.get('.bg-olive\\/20').first().should('have.class', 'shadow-xl')
   })
 
   it('should have animation classes and delays', () => {
     cy.mount(<ContentCard cardItems={mockCardItems} imageSrc={mockImageSrc} />)
-    cy.get('.bg-olive').should('have.class', 'opacity-0')
-    cy.get('.bg-olive').should('have.class', 'animate-slide-down')
+    cy.get('.bg-olive\\/20').should('have.class', 'opacity-0')
+    cy.get('.bg-olive\\/20').should('have.class', 'animate-slide-down')
 
     cy.get('.transition-discrete').should('be.visible')
     cy.get('.bottom-44').should('be.visible')
@@ -58,7 +57,7 @@ describe('ContentCard Component', () => {
   it('should handle different numbers of card items', () => {
     const singleCardItem = [{ _title: 'Single Card', content: 'Single content' }]
     cy.mount(<ContentCard cardItems={singleCardItem} imageSrc={mockImageSrc} />)
-    cy.get('.bg-olive').should('have.length', 1)
+    cy.get('.bg-olive\\/20').should('have.length', 1)
     cy.get('h3').contains('Single Card').should('be.visible')
   })
 
@@ -66,7 +65,7 @@ describe('ContentCard Component', () => {
     cy.mount(<ContentCard cardItems={[]} imageSrc={mockImageSrc} />)
     cy.get('h3').contains('User Name').should('be.visible')
     cy.get('img').should('be.visible')
-    cy.get('.bg-olive').should('not.exist')
+    cy.get('.bg-olive\\/20').should('not.exist')
   })
 
   it('should have proper image styling', () => {
@@ -81,8 +80,7 @@ describe('ContentCard Component', () => {
     cy.mount(<ContentCard cardItems={mockCardItems} imageSrc={mockImageSrc} />)
     cy.get('.w-24').first().should('have.class', 'h-24')
     cy.get('.w-24').first().should('have.class', 'rounded-full')
-    cy.get('.w-24').first().should('have.class', 'bg-olive-dark')
-    cy.get('.w-24').first().should('have.class', 'bg-opacity-50')
+    cy.get('.w-24').first().should('have.class', 'bg-olive-dark/50')
     cy.get('.w-24').first().should('have.class', 'flex')
     cy.get('.w-24').first().should('have.class', 'items-center')
   })
@@ -107,6 +105,6 @@ describe('ContentCard Component', () => {
   it('should handle different image sources', () => {
     const differentImageSrc = '/different-image.jpg'
     cy.mount(<ContentCard cardItems={mockCardItems} imageSrc={differentImageSrc} />)
-    cy.get('img').should('have.attr', 'src', differentImageSrc)
+    cy.get('img').should('have.attr', 'src').and('include', encodeURIComponent(differentImageSrc))
   })
 })

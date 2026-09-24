@@ -14,7 +14,7 @@ const NotFound: React.FC = () => {
       <Header title={pageTitle} navItems={navItems} />
 
       <div className="flex flex-col items-center justify-center flex-1 px-6 text-center">
-        <div className="bg-olive bg-opacity-20 px-8 py-12 shadow-xl shadow-olive/30 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10 mb-8">
+        <div className="bg-olive/20 px-8 py-12 shadow-xl shadow-olive/30 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10 mb-8">
           <h1 className="text-6xl font-bold text-white mb-4">404</h1>
           <h2 className="text-2xl font-semibold text-white mb-6">Page Not Found</h2>
           <p className="text-white mb-8">

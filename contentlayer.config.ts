@@ -55,4 +55,6 @@ export const Post = defineDocumentType(() => ({
 export default makeSource({
     contentDirPath: "app/content", // Directory containing your markdown files
     documentTypes: [Portfolio, Post],
+    // The alias is defined via tsconfig "paths"; baseUrl is deprecated in TypeScript 6.
+    disableImportAliasWarning: true,
 });
