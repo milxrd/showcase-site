@@ -1,7 +1,26 @@
-import { withContentlayer } from 'next-contentlayer2'
 import type { NextConfig } from 'next'
 
+// A single CSP header: Next.js keeps only the last header with a given key.
+// Next.js hydration uses inline scripts and components use inline styles, hence 'unsafe-inline';
+// the dev server (React Refresh, eval source maps) additionally needs 'unsafe-eval'.
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''}`,
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' https: data:",
+  "font-src 'self' data:",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'none'",
+  'upgrade-insecure-requests',
+].join('; ')
+
 const config: NextConfig = {
+  // Minimal self-contained server for the Docker image (.next/standalone).
+  output: 'standalone',
+  // Don't advertise the framework in an X-Powered-By header.
+  poweredByHeader: false,
   async headers() {
     return [
       {
@@ -9,15 +28,7 @@ const config: NextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "block-all-mixed-content; default-src 'self'; object-src 'none';"
-          },
-          {
-            key: 'Content-Security-Policy',
-            value: "img-src https: data:;"
-          },
-          {
-            key: 'Content-Security-Policy',
-            value: "upgrade-insecure-requests;"
+            value: contentSecurityPolicy,
           },
           {
             key: 'X-Frame-Options',
@@ -33,9 +44,6 @@ const config: NextConfig = {
   },
   compiler: {
     styledComponents: true,
-  },
-  experimental: {
-    optimizeRouterScrolling: true,
   },
   webpack: (config, { dev, isServer }) => {
     if (dev && !isServer) {
@@ -89,4 +97,4 @@ const config: NextConfig = {
   },
 }
 
-export default withContentlayer(config);
+export default config;

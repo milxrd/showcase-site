@@ -1,0 +1,2 @@
+# pnpm patches must keep LF line endings to apply cleanly
+*.patch text eol=lf

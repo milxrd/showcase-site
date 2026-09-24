@@ -1,0 +1,53 @@
+diff --git a/dist/utils/image-bitmap.js b/dist/utils/image-bitmap.js
+index 98ddf8c6130fb9ca51ef39b2c8af6bd6f48cb1e1..0497d957be4d57e3990af6ae05e95ca3e3f8b250 100644
+--- a/dist/utils/image-bitmap.js
++++ b/dist/utils/image-bitmap.js
+@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
+ exports.getBuffer = getBuffer;
+ exports.getBufferAsync = getBufferAsync;
+ exports.parseBitmap = parseBitmap;
+-var _fileType = _interopRequireDefault(require("file-type"));
++// file-type >=17 is ESM-only; loaded lazily via dynamic import below.
+ var _exifParser = _interopRequireDefault(require("exif-parser"));
+ var _utils = require("@jimp/utils");
+ var constants = _interopRequireWildcard(require("../constants"));
+@@ -16,7 +16,7 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
+ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+ async function getMIMEFromBuffer(buffer, path) {
+-  const fileTypeFromBuffer = await _fileType.default.fromBuffer(buffer);
++  const fileTypeFromBuffer = await (await import("file-type")).fileTypeFromBuffer(buffer);
+   if (fileTypeFromBuffer) {
+     // If fileType returns something for buffer, then return the mime given
+     return fileTypeFromBuffer.mime;
+diff --git a/es/utils/image-bitmap.js b/es/utils/image-bitmap.js
+index 1ae43becf957efd6ff8aa6749098fa48599c05ba..b9e8609fffa418863c1d7592f41f12fa1c349cd0 100644
+--- a/es/utils/image-bitmap.js
++++ b/es/utils/image-bitmap.js
+@@ -1,11 +1,11 @@
+-import FileType from "file-type";
++import { fileTypeFromBuffer as detectFileType } from "file-type";
+ import EXIFParser from "exif-parser";
+ import { throwError } from "@jimp/utils";
+ import * as constants from "../constants";
+ import * as MIME from "./mime";
+ import promisify from "./promisify";
+ async function getMIMEFromBuffer(buffer, path) {
+-  const fileTypeFromBuffer = await FileType.fromBuffer(buffer);
++  const fileTypeFromBuffer = await detectFileType(buffer);
+   if (fileTypeFromBuffer) {
+     // If fileType returns something for buffer, then return the mime given
+     return fileTypeFromBuffer.mime;
+diff --git a/package.json b/package.json
+index 7558b3eb031785e5bd9975171e25dccbb0af084a..06e17a6da347632a07998122096679ada30457e7 100644
+--- a/package.json
++++ b/package.json
+@@ -33,7 +33,7 @@
+     "any-base": "^1.1.0",
+     "buffer": "^5.2.0",
+     "exif-parser": "^0.1.12",
+-    "file-type": "^16.5.4",
++    "file-type": "^21.3.1",
+     "isomorphic-fetch": "^3.0.0",
+     "pixelmatch": "^4.0.2",
+     "tinycolor2": "^1.6.0"

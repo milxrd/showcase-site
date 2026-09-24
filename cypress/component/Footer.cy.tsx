@@ -36,7 +36,7 @@ describe('Footer Component', () => {
     cy.get('footer div').first().should('have.class', 'flex')
     cy.get('footer div').first().should('have.class', 'shrink-0')
     cy.get('footer div').first().should('have.class', 'h-px')
-    cy.get('footer div').first().should('have.class', 'bg-black')
+    cy.get('footer div').first().should('have.class', 'bg-black/50')
   })
 
   it('should be responsive on mobile', () => {
@@ -55,7 +55,7 @@ describe('Footer Component', () => {
   it('should have proper text styling', () => {
     cy.mount(<Footer author={mockAuthor} />)
     cy.get('footer p').should('have.class', 'text-black')
-    cy.get('footer').should('have.class', 'text-opacity-80')
+    cy.get('footer').should('have.class', 'text-black/80')
   })
 
   it('should have social media section on the right', () => {

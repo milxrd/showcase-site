@@ -19,7 +19,7 @@ const Error: React.FC<ErrorPageProps> = ({ error, reset }) => {
       <Header title={pageTitle} navItems={navItems} />
 
       <div className="flex flex-col items-center justify-center flex-1 px-6 text-center">
-        <div className="bg-red-900 bg-opacity-20 px-8 py-12 shadow-xl shadow-red-900/30 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10 mb-8 border border-red-500/30">
+        <div className="bg-red-900/20 px-8 py-12 shadow-xl shadow-red-900/30 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10 mb-8 border border-red-500/30">
           <h1 className="text-6xl font-bold text-red-400 mb-4">!</h1>
           <h2 className="text-2xl font-semibold text-white mb-6">Something went wrong</h2>
           <p className="text-white mb-6">

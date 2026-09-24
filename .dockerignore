@@ -1,7 +1,24 @@
 Dockerfile
 .dockerignore
-node_modules
-npm-debug.log
-README.md
-.next
 .git
+.gitignore
+.vscode
+.claude
+
+# dependencies and build output (rebuilt inside the image)
+node_modules
+.next
+.contentlayer
+*.tsbuildinfo
+
+# secrets must never be sent to the build context
+.env*
+*.pem
+
+# tests and docs are not needed to build the app
+cypress
+cypress.config.ts
+README.md
+AGENTS.md
+CLAUDE.md
+npm-debug.log

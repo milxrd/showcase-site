@@ -12,7 +12,8 @@ import { allPosts, Post } from 'contentlayer/generated'
 
 function PostCard(post: Post) {
   const md = new MarkdownIt({
-    html: true,
+    // Raw HTML is not allowed: the output goes through dangerouslySetInnerHTML (XSS).
+    html: false,
     breaks: true,
     linkify: true,
     typographer: true
@@ -26,7 +27,7 @@ function PostCard(post: Post) {
         {format(parseISO(post.date), 'dd. LL. yyyy')}
       </time>
       
-      <div className="prose prose-sm max-w-none text-black [&>*]:mb-3 [&>*:last-child]:mb-0" dangerouslySetInnerHTML={{ __html: contentHtml }} />
+      <div className="prose prose-sm max-w-none text-black *:mb-3 [&>*:last-child]:mb-0" dangerouslySetInnerHTML={{ __html: contentHtml }} />
       {post.tags && post.tags.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {post.tags.map((tag) => (

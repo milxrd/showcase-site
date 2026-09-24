@@ -1,0 +1,200 @@
+diff --git a/build/esm/baggage/propagation/W3CBaggagePropagator.js b/build/esm/baggage/propagation/W3CBaggagePropagator.js
+index 3beba8defbe3fe66878ad258008d11a0b21cd6f1..5691664b19c28ffdcae6f15624fce906b0618f07 100644
+--- a/build/esm/baggage/propagation/W3CBaggagePropagator.js
++++ b/build/esm/baggage/propagation/W3CBaggagePropagator.js
+@@ -15,7 +15,7 @@
+  */
+ import { propagation, } from '@opentelemetry/api';
+ import { isTracingSuppressed } from '../../trace/suppress-tracing';
+-import { BAGGAGE_HEADER, BAGGAGE_ITEMS_SEPARATOR, BAGGAGE_MAX_NAME_VALUE_PAIRS, BAGGAGE_MAX_PER_NAME_VALUE_PAIRS, } from '../constants';
++import { BAGGAGE_HEADER, BAGGAGE_ITEMS_SEPARATOR, BAGGAGE_MAX_NAME_VALUE_PAIRS, BAGGAGE_MAX_PER_NAME_VALUE_PAIRS, BAGGAGE_MAX_TOTAL_LENGTH, } from '../constants';
+ import { getKeyPairs, parsePairKeyValue, serializeKeyPairs } from '../utils';
+ /**
+  * Propagates {@link Baggage} through Context format propagation.
+@@ -42,27 +42,38 @@ var W3CBaggagePropagator = /** @class */ (function () {
+     };
+     W3CBaggagePropagator.prototype.extract = function (context, carrier, getter) {
+         var headerValue = getter.get(carrier, BAGGAGE_HEADER);
+-        var baggageString = Array.isArray(headerValue)
+-            ? headerValue.join(BAGGAGE_ITEMS_SEPARATOR)
+-            : headerValue;
+-        if (!baggageString)
++        if (!headerValue)
+             return context;
+         var baggage = {};
+-        if (baggageString.length === 0) {
+-            return context;
+-        }
+-        var pairs = baggageString.split(BAGGAGE_ITEMS_SEPARATOR);
+-        pairs.forEach(function (entry) {
+-            var keyPair = parsePairKeyValue(entry);
+-            if (keyPair) {
+-                var baggageEntry = { value: keyPair.value };
+-                if (keyPair.metadata) {
+-                    baggageEntry.metadata = keyPair.metadata;
++        var count = 0;
++        var totalSize = 0;
++        var values = Array.isArray(headerValue) ? headerValue : [headerValue];
++        for (var i = 0; i < values.length && count < BAGGAGE_MAX_NAME_VALUE_PAIRS; i++) {
++            var value = values[i];
++            var start = 0;
++            while (start < value.length && count < BAGGAGE_MAX_NAME_VALUE_PAIRS) {
++                var end = value.indexOf(BAGGAGE_ITEMS_SEPARATOR, start);
++                var entryEnd = end === -1 ? value.length : end;
++                var entryLength = entryEnd - start;
++                if (entryLength <= BAGGAGE_MAX_PER_NAME_VALUE_PAIRS) {
++                    var keyPair = parsePairKeyValue(value.substring(start, entryEnd));
++                    if (keyPair) {
++                        var entrySize = (count === 0 ? 0 : 1) + entryLength;
++                        if (totalSize + entrySize > BAGGAGE_MAX_TOTAL_LENGTH)
++                            break;
++                        baggage[keyPair.key] = keyPair.metadata
++                            ? { value: keyPair.value, metadata: keyPair.metadata }
++                            : { value: keyPair.value };
++                        count++;
++                        totalSize += entrySize;
++                    }
+                 }
+-                baggage[keyPair.key] = baggageEntry;
++                if (end === -1)
++                    break;
++                start = end + 1;
+             }
+-        });
+-        if (Object.entries(baggage).length === 0) {
++        }
++        if (count === 0) {
+             return context;
+         }
+         return propagation.setBaggage(context, propagation.createBaggage(baggage));
+diff --git a/build/esnext/baggage/propagation/W3CBaggagePropagator.js b/build/esnext/baggage/propagation/W3CBaggagePropagator.js
+index bd17a619850faca096b1411147cf0db6c1a12050..711eddb5cb049233e63f616d1b89ca7c04b87e25 100644
+--- a/build/esnext/baggage/propagation/W3CBaggagePropagator.js
++++ b/build/esnext/baggage/propagation/W3CBaggagePropagator.js
+@@ -15,7 +15,7 @@
+  */
+ import { propagation, } from '@opentelemetry/api';
+ import { isTracingSuppressed } from '../../trace/suppress-tracing';
+-import { BAGGAGE_HEADER, BAGGAGE_ITEMS_SEPARATOR, BAGGAGE_MAX_NAME_VALUE_PAIRS, BAGGAGE_MAX_PER_NAME_VALUE_PAIRS, } from '../constants';
++import { BAGGAGE_HEADER, BAGGAGE_ITEMS_SEPARATOR, BAGGAGE_MAX_NAME_VALUE_PAIRS, BAGGAGE_MAX_PER_NAME_VALUE_PAIRS, BAGGAGE_MAX_TOTAL_LENGTH, } from '../constants';
+ import { getKeyPairs, parsePairKeyValue, serializeKeyPairs } from '../utils';
+ /**
+  * Propagates {@link Baggage} through Context format propagation.
+@@ -40,27 +40,38 @@ export class W3CBaggagePropagator {
+     }
+     extract(context, carrier, getter) {
+         const headerValue = getter.get(carrier, BAGGAGE_HEADER);
+-        const baggageString = Array.isArray(headerValue)
+-            ? headerValue.join(BAGGAGE_ITEMS_SEPARATOR)
+-            : headerValue;
+-        if (!baggageString)
++        if (!headerValue)
+             return context;
+-        const baggage = {};
+-        if (baggageString.length === 0) {
+-            return context;
+-        }
+-        const pairs = baggageString.split(BAGGAGE_ITEMS_SEPARATOR);
+-        pairs.forEach(entry => {
+-            const keyPair = parsePairKeyValue(entry);
+-            if (keyPair) {
+-                const baggageEntry = { value: keyPair.value };
+-                if (keyPair.metadata) {
+-                    baggageEntry.metadata = keyPair.metadata;
++        var baggage = {};
++        var count = 0;
++        var totalSize = 0;
++        var values = Array.isArray(headerValue) ? headerValue : [headerValue];
++        for (var i = 0; i < values.length && count < BAGGAGE_MAX_NAME_VALUE_PAIRS; i++) {
++            var value = values[i];
++            var start = 0;
++            while (start < value.length && count < BAGGAGE_MAX_NAME_VALUE_PAIRS) {
++                var end = value.indexOf(BAGGAGE_ITEMS_SEPARATOR, start);
++                var entryEnd = end === -1 ? value.length : end;
++                var entryLength = entryEnd - start;
++                if (entryLength <= BAGGAGE_MAX_PER_NAME_VALUE_PAIRS) {
++                    var keyPair = parsePairKeyValue(value.substring(start, entryEnd));
++                    if (keyPair) {
++                        var entrySize = (count === 0 ? 0 : 1) + entryLength;
++                        if (totalSize + entrySize > BAGGAGE_MAX_TOTAL_LENGTH)
++                            break;
++                        baggage[keyPair.key] = keyPair.metadata
++                            ? { value: keyPair.value, metadata: keyPair.metadata }
++                            : { value: keyPair.value };
++                        count++;
++                        totalSize += entrySize;
++                    }
+                 }
+-                baggage[keyPair.key] = baggageEntry;
++                if (end === -1)
++                    break;
++                start = end + 1;
+             }
+-        });
+-        if (Object.entries(baggage).length === 0) {
++        }
++        if (count === 0) {
+             return context;
+         }
+         return propagation.setBaggage(context, propagation.createBaggage(baggage));
+diff --git a/build/src/baggage/propagation/W3CBaggagePropagator.js b/build/src/baggage/propagation/W3CBaggagePropagator.js
+index d295950154e52b47f6c3fe1187aa044ded9f3054..e30dca8f6d7a9e21cf772e92ae79bed5dc7d11d5 100644
+--- a/build/src/baggage/propagation/W3CBaggagePropagator.js
++++ b/build/src/baggage/propagation/W3CBaggagePropagator.js
+@@ -43,27 +43,38 @@ class W3CBaggagePropagator {
+     }
+     extract(context, carrier, getter) {
+         const headerValue = getter.get(carrier, constants_1.BAGGAGE_HEADER);
+-        const baggageString = Array.isArray(headerValue)
+-            ? headerValue.join(constants_1.BAGGAGE_ITEMS_SEPARATOR)
+-            : headerValue;
+-        if (!baggageString)
++        if (!headerValue)
+             return context;
+-        const baggage = {};
+-        if (baggageString.length === 0) {
+-            return context;
+-        }
+-        const pairs = baggageString.split(constants_1.BAGGAGE_ITEMS_SEPARATOR);
+-        pairs.forEach(entry => {
+-            const keyPair = (0, utils_1.parsePairKeyValue)(entry);
+-            if (keyPair) {
+-                const baggageEntry = { value: keyPair.value };
+-                if (keyPair.metadata) {
+-                    baggageEntry.metadata = keyPair.metadata;
++        var baggage = {};
++        var count = 0;
++        var totalSize = 0;
++        var values = Array.isArray(headerValue) ? headerValue : [headerValue];
++        for (var i = 0; i < values.length && count < constants_1.BAGGAGE_MAX_NAME_VALUE_PAIRS; i++) {
++            var value = values[i];
++            var start = 0;
++            while (start < value.length && count < constants_1.BAGGAGE_MAX_NAME_VALUE_PAIRS) {
++                var end = value.indexOf(constants_1.BAGGAGE_ITEMS_SEPARATOR, start);
++                var entryEnd = end === -1 ? value.length : end;
++                var entryLength = entryEnd - start;
++                if (entryLength <= constants_1.BAGGAGE_MAX_PER_NAME_VALUE_PAIRS) {
++                    var keyPair = (0, utils_1.parsePairKeyValue)(value.substring(start, entryEnd));
++                    if (keyPair) {
++                        var entrySize = (count === 0 ? 0 : 1) + entryLength;
++                        if (totalSize + entrySize > constants_1.BAGGAGE_MAX_TOTAL_LENGTH)
++                            break;
++                        baggage[keyPair.key] = keyPair.metadata
++                            ? { value: keyPair.value, metadata: keyPair.metadata }
++                            : { value: keyPair.value };
++                        count++;
++                        totalSize += entrySize;
++                    }
+                 }
+-                baggage[keyPair.key] = baggageEntry;
++                if (end === -1)
++                    break;
++                start = end + 1;
+             }
+-        });
+-        if (Object.entries(baggage).length === 0) {
++        }
++        if (count === 0) {
+             return context;
+         }
+         return api_1.propagation.setBaggage(context, api_1.propagation.createBaggage(baggage));
